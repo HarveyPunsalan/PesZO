@@ -16,11 +16,11 @@
 
 ## What is PesZO
 
-PesZO is a financial life simulator — a serious game that teaches personal finance, investing, accounting, and economics through randomized real-world scenarios and mathematically-grounded consequences.
+PesZO is a financial life simulator - a serious game that teaches personal finance, investing, accounting, and economics through randomized real-world scenarios and mathematically-grounded consequences.
 
 No real money. No fake money either. PesZO uses real financial formulas to calculate real outcomes. The scenarios are randomized so you cannot memorize answers. Every decision has weight. Every consequence is earned.
 
-The name comes from "pestering" + "zero balance" — because financial illiteracy pesters you and keeps you at zero.
+The name comes from "pestering" + "zero balance" - because financial illiteracy pesters you and keeps you at zero.
 
 ## Why This Exists
 
@@ -28,7 +28,7 @@ Financial literacy is not taught in Philippine schools. Not properly. Not in a w
 
 - 78% of Filipino workers live paycheck to paycheck
 - Most financial education is either too abstract (textbooks) or too dangerous (real trading)
-- Gamification works — but only when the game respects the player's intelligence
+- Gamification works - but only when the game respects the player's intelligence
 - Simulations let people fail safely and learn from consequences without losing real money
 
 PesZO is not a course. It is a game that happens to teach you everything your school did not.
@@ -59,7 +59,7 @@ Modular monolith with strict module boundaries. Not a weekend project. Built for
 
 ## Architecture
 
-PesZO is a modular monolith. One deployable unit. Strict module boundaries enforced at the code level. Modules never touch each other's database tables directly — they communicate through service interfaces only.
+PesZO is a modular monolith. One deployable unit. Strict module boundaries enforced at the code level. Modules never touch each other's database tables directly - they communicate through service interfaces only.
 
 This is not microservices. This is a monolith that is disciplined enough to scale.
 
@@ -157,5 +157,5 @@ Building financial literacy tools that actually work. Not another budgeting app.
 ---
 
 <p align="center">
-  <span style="color:#F5F0E8">Pes</span><span style="color:#C9A84C">Z</span><span style="color:#F5F0E8">O</span> — Financial illiteracy ends here.
+  <span style="color:#F5F0E8">Pes</span><span style="color:#C9A84C">Z</span><span style="color:#F5F0E8">O</span> - Financial illiteracy ends here.
 </p>
