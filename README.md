@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/HarveyPunsalan/PesZO/blob/main/LICENSE"><img src="https://img.shields.io/github/license/HarveyPunsalan/PesZO?style=flat-square" alt="License"></a>
   <img src="https://img.shields.io/badge/TypeScript-5.4-blue?style=flat-square&logo=typescript" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Node.js-20-LTS-green?style=flat-square&logo=node.js" alt="Node.js">
+  <img src="https://img.shields.io/badge/Node.js-20_LTS-green?style=flat-square&logo=node.js" alt="Node.js">
 </p>
 
 ---
