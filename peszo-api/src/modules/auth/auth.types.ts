@@ -8,11 +8,15 @@ export interface LoginInput {
   password: string;
 }
 
-export interface RefreshInput {
-  refreshToken: string;
+export interface UserWithoutPassword {
+  id: string;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface AuthOutput {
+  user: UserWithoutPassword;
   accessToken: string;
   refreshToken: string;
 }
