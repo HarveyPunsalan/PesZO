@@ -6,6 +6,7 @@ import { env } from './config/env';
 import { requestId } from './middleware/request-id.middleware';
 import { errorHandler } from './middleware/error-handler';
 import authRouter from './modules/auth/auth.routes';
+import playerRouter from './modules/player/player.routes';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/player', playerRouter);
 
 app.use(errorHandler);
 
