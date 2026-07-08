@@ -5,3 +5,249 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  refresh_token String?
+  player        Player?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// Player
+// ---------------------------------------------------------------------------
+
+model Player {
+  id               String        @id @default(cuid())
+  user_id          String        @unique
+  user             User          @relation(fields: [user_id], references: [id])
+  name             String
+  simulation_month Int           @default(1)
+  simulation_year  Int           @default(2025)
+  health_score     Float         @default(0)
+  xp               Int           @default(0)
+  level            Int           @default(1)
+  job_situation    String
+  monthly_salary   Float
+  budgets          Budget[]
+  liabilities      Liability[]
+  portfolios       Portfolio[]
+  transactions     Transaction[]
+  simulations      Simulation[]
+  player_quests    PlayerQuest[]
+  created_at       DateTime      @default(now())
+  updated_at       DateTime      @updatedAt
+
+  @@index([user_id])
+  @@map("players")
+}
+
+// ---------------------------------------------------------------------------
+// Budget
+// ---------------------------------------------------------------------------
+
+model Budget {
+  id          String   @id @default(cuid())
+  player_id   String
+  player      Player   @relation(fields: [player_id], references: [id])
+  category    String
+  type        String
+  amount      Float
+  description String?
+  month       Int
+  year        Int
+  created_at  DateTime @default(now())
+
+  @@index([player_id])
+  @@index([player_id, month, year])
+  @@map("budgets")
+}
+
+// ---------------------------------------------------------------------------
+// Liabilities
+// ---------------------------------------------------------------------------
+
+model Liability {
+  id              String   @id @default(cuid())
+  player_id       String
+  player          Player   @relation(fields: [player_id], references: [id])
+  name            String
+  type            String
+  balance         Float
+  original_amount Float
+  interest_rate   Float
+  minimum_payment Float
+  month_started   Int
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@index([player_id])
+  @@index([player_id, type])
+  @@map("liabilities")
+}
+
+// ---------------------------------------------------------------------------
+// Markets — Assets
+// ---------------------------------------------------------------------------
+
+model Asset {
+  id            String              @id @default(cuid())
+  name          String
+  ticker        String              @unique
+  type          String
+  trend_bias    Float
+  volatility    Float
+  current_price Float
+  price_history AssetPriceHistory[]
+  portfolios    Portfolio[]
+  transactions  Transaction[]
+  created_at    DateTime            @default(now())
+  updated_at    DateTime            @updatedAt
+
+  @@map("assets")
+}
+
+model AssetPriceHistory {
+  id         String   @id @default(cuid())
+  asset_id   String
+  asset      Asset    @relation(fields: [asset_id], references: [id])
+  price      Float
+  month      Int
+  year       Int
+  created_at DateTime @default(now())
+
+  @@unique([asset_id, month, year])
+  @@index([asset_id])
+  @@index([asset_id, month, year])
+  @@map("asset_price_history")
+}
+
+// ---------------------------------------------------------------------------
+// Portfolio
+// ---------------------------------------------------------------------------
+
+model Portfolio {
+  id            String   @id @default(cuid())
+  player_id     String
+  player        Player   @relation(fields: [player_id], references: [id])
+  asset_id      String
+  asset         Asset    @relation(fields: [asset_id], references: [id])
+  quantity      Float
+  avg_buy_price Float
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@unique([player_id, asset_id])
+  @@index([player_id])
+  @@index([asset_id])
+  @@map("portfolios")
+}
+
+// ---------------------------------------------------------------------------
+// Transactions
+// ---------------------------------------------------------------------------
+
+model Transaction {
+  id            String   @id @default(cuid())
+  player_id     String
+  player        Player   @relation(fields: [player_id], references: [id])
+  asset_id      String
+  asset         Asset    @relation(fields: [asset_id], references: [id])
+  type          String
+  quantity      Float
+  price_at_time Float
+  total_amount  Float
+  month         Int
+  year          Int
+  created_at    DateTime @default(now())
+
+  @@index([player_id])
+  @@index([asset_id])
+  @@index([player_id, month, year])
+  @@map("transactions")
+}
+
+// ---------------------------------------------------------------------------
+// Simulation
+// ---------------------------------------------------------------------------
+
+model Simulation {
+  id                String   @id @default(cuid())
+  player_id         String
+  player            Player   @relation(fields: [player_id], references: [id])
+  month             Int
+  year              Int
+  inflation_rate    Float
+  interest_rate     Float
+  gdp_growth        Float
+  unemployment_rate Float
+  exchange_rate     Float
+  market_index      Float
+  created_at        DateTime @default(now())
+
+  @@index([player_id])
+  @@index([player_id, month, year])
+  @@map("simulations")
+}
+
+// ---------------------------------------------------------------------------
+// Quests
+// ---------------------------------------------------------------------------
+
+model Quest {
+  id               String        @id @default(cuid())
+  title            String
+  description      String
+  category         String
+  scenario_text    String
+  xp_reward        Int
+  unlock_condition String?
+  order_index      Int
+  choices          QuestChoice[]
+  player_quests    PlayerQuest[]
+  created_at       DateTime      @default(now())
+
+  @@index([category, order_index])
+  @@map("quests")
+}
+
+model QuestChoice {
+  id          String   @id @default(cuid())
+  quest_id    String
+  quest       Quest    @relation(fields: [quest_id], references: [id])
+  label       String
+  description String
+  consequence String
+  is_optimal  Boolean  @default(false)
+  created_at  DateTime @default(now())
+
+  @@index([quest_id])
+  @@map("quest_choices")
+}
+
+model PlayerQuest {
+  id               String    @id @default(cuid())
+  player_id        String
+  player           Player    @relation(fields: [player_id], references: [id])
+  quest_id         String
+  quest            Quest     @relation(fields: [quest_id], references: [id])
+  status           String
+  chosen_choice_id String?
+  completed_at     DateTime?
+  created_at       DateTime  @default(now())
+
+  @@unique([player_id, quest_id])
+  @@index([player_id])
+  @@index([quest_id])
+  @@index([player_id, status])
+  @@map("player_quests")
+}

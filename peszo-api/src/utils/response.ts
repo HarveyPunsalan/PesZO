@@ -17,10 +17,15 @@ export interface SuccessResponse<T> {
   timestamp: string;
 }
 
-export const successResponse = <T>(data: T, statusCode: number = 200): SuccessResponse<T> => {
+export interface SuccessResponseWithStatus<T> extends SuccessResponse<T> {
+  statusCode: number;
+}
+
+export const successResponse = <T>(data: T, statusCode: number = 200): SuccessResponseWithStatus<T> => {
   return {
     success: true,
     data,
     timestamp: new Date().toISOString(),
+    statusCode,
   };
 };

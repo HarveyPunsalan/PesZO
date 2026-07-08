@@ -13,9 +13,3 @@ export const loginSchema = z.object({
     password: z.string(),
   }),
 });
-
-export const refreshSchema = z.object({
-  body: z.object({
-    refreshToken: z.string(),
-  }),
-});
