@@ -2,6 +2,7 @@ import app from './app';
 import { env } from './config/env';
 import { prisma, closeDatabase } from './config/database';
 import { connectRedis, closeRedis } from './lib/redis';
+import { seedAssets } from './lib/seed';
 import { logger } from './lib/logger';
 
 const start = async (): Promise<void> => {
@@ -10,6 +11,8 @@ const start = async (): Promise<void> => {
     logger.info('Database connected');
 
     await connectRedis();
+
+    await seedAssets();
 
     const server = app.listen(env.PORT, () => {
       logger.info(`Server running on port ${env.PORT}`);
