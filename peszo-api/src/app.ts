@@ -8,6 +8,7 @@ import { errorHandler } from './middleware/error-handler';
 import authRouter from './modules/auth/auth.routes';
 import playerRouter from './modules/player/player.routes';
 import marketsRouter from './modules/markets/markets.routes';
+import budgetRouter from './modules/budget/budget.routes';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/player', playerRouter);
 app.use('/api/v1/markets', marketsRouter);
+app.use('/api/v1/budget', budgetRouter);
 
 app.use(errorHandler);
 

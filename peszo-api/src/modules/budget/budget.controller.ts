@@ -1,37 +1,41 @@
 import { Request, Response, NextFunction } from 'express';
 import { BudgetService } from './budget.service';
+import { PlayerService } from '../player/player.service';
+import { successResponse } from '../../utils/response';
 
 export class BudgetController {
   private service: BudgetService;
 
   constructor() {
-    this.service = new BudgetService();
+    const playerService = new PlayerService();
+    this.service = new BudgetService(playerService);
   }
 
-  getBudget = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.getBudget(req.user!.userId);
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  // Arrow functions bind `this` so the handler works when passed to router.
+  // No try/catch — thrown AppErrors propagate to the global error handler via _next.
+  addIncome = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    await this.service.addIncome(req.user!.userId, req.body);
+    const response = successResponse(null, 201);
+    res.status(response.statusCode).json(response);
   };
 
-  addIncome = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.addIncome(req.user!.userId, req.body);
-      res.status(201).json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  addExpense = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    await this.service.addExpense(req.user!.userId, req.body);
+    const response = successResponse(null, 201);
+    res.status(response.statusCode).json(response);
   };
 
-  addExpense = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.addExpense(req.user!.userId, req.body);
-      res.status(201).json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  getSummary = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const { month, year } = req.query as { month: string; year: string };
+    const result = await this.service.getSummary(req.user!.userId, Number(month), Number(year));
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
+  };
+
+  getBreakdown = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const { month, year } = req.query as { month: string; year: string };
+    const result = await this.service.getBreakdown(req.user!.userId, Number(month), Number(year));
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
   };
 }
