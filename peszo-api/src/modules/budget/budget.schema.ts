@@ -1,17 +1,38 @@
 import { z } from 'zod';
 
+const monthField = z.coerce.number().int().min(1).max(12);
+const yearField = z.coerce.number().int().positive();
+
 export const addIncomeSchema = z.object({
   body: z.object({
-    source: z.string().min(1),
+    type: z.literal('income'),
+    category: z.enum(['salary', 'freelance', 'business', 'other']),
     amount: z.number().positive(),
-    frequency: z.enum(['weekly', 'biweekly', 'monthly', 'yearly']),
+    month: monthField,
+    year: yearField,
   }),
 });
 
 export const addExpenseSchema = z.object({
   body: z.object({
-    category: z.string().min(1),
+    type: z.literal('expense'),
+    category: z.enum(['housing', 'food', 'transport', 'utilities', 'entertainment', 'health', 'others']),
     amount: z.number().positive(),
-    frequency: z.enum(['weekly', 'biweekly', 'monthly', 'yearly']),
+    month: monthField,
+    year: yearField,
+  }),
+});
+
+export const summaryQuerySchema = z.object({
+  query: z.object({
+    month: monthField,
+    year: yearField,
+  }),
+});
+
+export const breakdownQuerySchema = z.object({
+  query: z.object({
+    month: monthField,
+    year: yearField,
   }),
 });
