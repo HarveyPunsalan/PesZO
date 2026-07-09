@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { MarketsService } from './markets.service';
+import { successResponse } from '../../utils/response';
 
 export class MarketsController {
   private service: MarketsService;
@@ -8,30 +9,23 @@ export class MarketsController {
     this.service = new MarketsService();
   }
 
-  getAssets = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.getAssets();
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  // Arrow functions bind `this` so the handler works when passed to router.
+  // No try/catch — thrown AppErrors propagate to the global error handler via _next.
+  getAllAssets = async (_req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.getAllAssets();
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
   };
 
-  getAssetById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.getAssetById(req.params.id as string);
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  getAssetByTicker = async (req: Request<{ ticker: string }>, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.getAssetByTicker(req.params.ticker);
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
   };
 
-  getMarketHistory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.getMarketHistory(req.query as any);
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  tick = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.tickAllAssets(req.body);
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
   };
 }

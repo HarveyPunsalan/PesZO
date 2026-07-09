@@ -1,24 +1,29 @@
-export interface Asset {
+export interface AssetOutput {
   id: string;
-  symbol: string;
   name: string;
+  ticker: string;
   type: string;
-  currentPrice: number;
-  createdAt: Date;
-  updatedAt: Date;
+  trend_bias: number;
+  volatility: number;
+  current_price: number;
+  created_at: Date;
+  updated_at: Date;
 }
 
-export interface MarketHistory {
+export interface AssetWithHistory extends AssetOutput {
+  price_history: PriceHistoryOutput[];
+}
+
+export interface PriceHistoryOutput {
   id: string;
-  assetId: string;
-  date: Date;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+  asset_id: string;
+  price: number;
+  month: number;
+  year: number;
+  created_at: Date;
 }
 
-export interface MarketHistoryQuery {
-  assetId: string;
+export interface AssetTickInput {
+  month: number;
+  year: number;
 }

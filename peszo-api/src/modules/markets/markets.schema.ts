@@ -1,13 +1,8 @@
 import { z } from 'zod';
 
-export const getAssetSchema = z.object({
-  params: z.object({
-    id: z.string().uuid(),
-  }),
-});
-
-export const getMarketHistorySchema = z.object({
-  query: z.object({
-    assetId: z.string().uuid(),
+export const tickSchema = z.object({
+  body: z.object({
+    month: z.number().int().min(1).max(12),
+    year: z.number().int().positive(),
   }),
 });
