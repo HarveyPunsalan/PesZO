@@ -1,37 +1,39 @@
 import { Request, Response, NextFunction } from 'express';
 import { LiabilitiesService } from './liabilities.service';
+import { PlayerService } from '../player/player.service';
+import { successResponse } from '../../utils/response';
 
 export class LiabilitiesController {
   private service: LiabilitiesService;
 
   constructor() {
-    this.service = new LiabilitiesService();
+    const playerService = new PlayerService();
+    this.service = new LiabilitiesService(playerService);
   }
 
-  getLiabilities = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.getLiabilities(req.user!.userId);
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  // Arrow functions bind `this` so the handler works when passed to router.
+  // No try/catch — thrown AppErrors propagate to the global error handler via _next.
+  create = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.create(req.user!.userId, req.body);
+    const response = successResponse(result, 201);
+    res.status(response.statusCode).json(response);
   };
 
-  addLiability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.addLiability(req.user!.userId, req.body);
-      res.status(201).json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  getAll = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.getAll(req.user!.userId);
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
   };
 
-  makePayment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const result = await this.service.makePayment(req.params.id as string, req.body);
-      res.json({ success: true, data: result, timestamp: new Date().toISOString() });
-    } catch (error) {
-      next(error);
-    }
+  update = async (req: Request<{ id: string }>, res: Response, _next: NextFunction): Promise<void> => {
+    const result = await this.service.update(req.user!.userId, req.params.id, req.body);
+    const response = successResponse(result);
+    res.status(response.statusCode).json(response);
+  };
+
+  remove = async (req: Request<{ id: string }>, res: Response, _next: NextFunction): Promise<void> => {
+    await this.service.delete(req.user!.userId, req.params.id);
+    const response = successResponse(null);
+    res.status(response.statusCode).json(response);
   };
 }
