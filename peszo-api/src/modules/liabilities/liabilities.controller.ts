@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { LiabilitiesService } from './liabilities.service';
 import { PlayerService } from '../player/player.service';
+import { MarketsService } from '../markets/markets.service';
 import { successResponse } from '../../utils/response';
 
 export class LiabilitiesController {
   private service: LiabilitiesService;
 
   constructor() {
-    const playerService = new PlayerService();
+    const playerService = new PlayerService(new MarketsService());
     this.service = new LiabilitiesService(playerService);
   }
 

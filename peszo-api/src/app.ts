@@ -10,6 +10,7 @@ import playerRouter from './modules/player/player.routes';
 import marketsRouter from './modules/markets/markets.routes';
 import budgetRouter from './modules/budget/budget.routes';
 import liabilitiesRouter from './modules/liabilities/liabilities.routes';
+import portfolioRouter from './modules/portfolio/portfolio.routes';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/v1/player', playerRouter);
 app.use('/api/v1/markets', marketsRouter);
 app.use('/api/v1/budget', budgetRouter);
 app.use('/api/v1/liabilities', liabilitiesRouter);
+app.use('/api/v1/portfolio', portfolioRouter);
 
 app.use(errorHandler);
 
