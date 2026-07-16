@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { BudgetService } from './budget.service';
 import { PlayerService } from '../player/player.service';
+import { MarketsService } from '../markets/markets.service';
 import { successResponse } from '../../utils/response';
 
 export class BudgetController {
   private service: BudgetService;
 
   constructor() {
-    const playerService = new PlayerService();
+    const playerService = new PlayerService(new MarketsService());
     this.service = new BudgetService(playerService);
   }
 

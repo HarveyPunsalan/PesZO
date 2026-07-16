@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { PlayerService } from './player.service';
+import { MarketsService } from '../markets/markets.service';
 import { successResponse } from '../../utils/response';
 
 export class PlayerController {
   private service: PlayerService;
 
   constructor() {
-    this.service = new PlayerService();
+    this.service = new PlayerService(new MarketsService());
   }
 
   // Arrow functions bind `this` so the handler works when passed to router.
