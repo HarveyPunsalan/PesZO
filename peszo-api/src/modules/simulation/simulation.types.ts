@@ -1,8 +1,13 @@
-export interface SimulationState {
+export interface SimulationOutput {
   id: string;
-  userId: string;
-  currentMonth: number;
-  currentYear: number;
-  createdAt: Date;
-  updatedAt: Date;
+  player_id: string;
+  month: number;
+  year: number;
+  inflation_rate: number;
+  interest_rate: number;
+  gdp_growth: number;
+  unemployment_rate: number;
+  exchange_rate: number;
+  market_index: number;
+  created_at: Date;
 }

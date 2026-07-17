@@ -5,7 +5,7 @@ import { authenticate } from '../../middleware/auth.middleware';
 const router = Router();
 const controller = new SimulationController();
 
-router.post('/advance-month', authenticate, controller.advanceMonth);
-router.get('/state', authenticate, controller.getSimulationState);
+router.post('/advance', authenticate, controller.advance);
+router.get('/history', authenticate, controller.getHistory);
 
 export default router;

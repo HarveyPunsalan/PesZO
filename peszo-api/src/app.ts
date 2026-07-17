@@ -11,6 +11,7 @@ import marketsRouter from './modules/markets/markets.routes';
 import budgetRouter from './modules/budget/budget.routes';
 import liabilitiesRouter from './modules/liabilities/liabilities.routes';
 import portfolioRouter from './modules/portfolio/portfolio.routes';
+import simulationRouter from './modules/simulation/simulation.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/v1/markets', marketsRouter);
 app.use('/api/v1/budget', budgetRouter);
 app.use('/api/v1/liabilities', liabilitiesRouter);
 app.use('/api/v1/portfolio', portfolioRouter);
+app.use('/api/v1/simulation', simulationRouter);
 
 app.use(errorHandler);
 
