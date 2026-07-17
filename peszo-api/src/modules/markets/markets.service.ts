@@ -1,20 +1,10 @@
 import { prisma } from '../../config/database';
 import { AppError } from '../../utils/response';
 import { createLogger } from '../../lib/logger';
+import { gaussianRandom } from '../../utils/random';
 import { AssetOutput, AssetWithHistory, AssetTickInput } from './markets.types';
 
 const logger = createLogger('markets-service');
-
-/**
- * Box-Muller transform converts two uniform random numbers into one
- * normally distributed sample. No external library needed for this.
- */
-const gaussianRandom = (mean: number, stdDev: number): number => {
-  const u1 = Math.random();
-  const u2 = Math.random();
-  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-  return mean + z * stdDev;
-};
 
 export class MarketsService {
   /** Fetch all assets ordered by name for display in the portfolio UI. */
