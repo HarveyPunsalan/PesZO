@@ -12,6 +12,7 @@ import budgetRouter from './modules/budget/budget.routes';
 import liabilitiesRouter from './modules/liabilities/liabilities.routes';
 import portfolioRouter from './modules/portfolio/portfolio.routes';
 import simulationRouter from './modules/simulation/simulation.routes';
+import questsRouter from './modules/quests/quests.routes';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/v1/budget', budgetRouter);
 app.use('/api/v1/liabilities', liabilitiesRouter);
 app.use('/api/v1/portfolio', portfolioRouter);
 app.use('/api/v1/simulation', simulationRouter);
+app.use('/api/v1/quests', questsRouter);
 
 app.use(errorHandler);
 

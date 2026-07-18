@@ -205,7 +205,7 @@ model Simulation {
 
 model Quest {
   id               String        @id @default(cuid())
-  title            String
+  title            String        @unique
   description      String
   category         String
   scenario_text    String
