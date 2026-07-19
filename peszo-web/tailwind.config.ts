@@ -23,6 +23,9 @@ const config: Config = {
         goldBright: "#E8C876",
         goldGlow: "#C9A84C18",
         info: "#60A5FA",
+        // Scoped to the Login/Register hero panel only — not a project-wide
+        // light mode token. See LoginForm.tsx / RegisterForm.tsx WHY comment.
+        authPanelLight: "#FFFFFF",
       },
       fontFamily: {
         heading: ["Space Grotesk", "sans-serif"],

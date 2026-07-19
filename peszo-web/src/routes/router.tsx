@@ -1,22 +1,18 @@
 // React Router v7 is installed (package.json: "react-router-dom": "^7.18.1").
 // This file uses v7 in LIBRARY MODE ONLY (createBrowserRouter + RouterProvider).
-// No framework-mode features are used — no file-based routing, no Vite router plugin.
+// No framework-mode features are used - no file-based routing, no Vite router plugin.
 // This deviates from AGENTS.md which references "React Router v6", but v7 library-mode
 // API is backward-compatible with v6 patterns. Documented here rather than silently ignored.
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-function LoginPage() {
-  return <div>Login</div>;
-}
-
-function RegisterPage() {
-  return <div>Register</div>;
-}
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
 
 function DashboardPage() {
   return <div>Dashboard</div>;
 }
 
+// /login and /register render real pages (LoginPage, RegisterPage).
+// /dashboard and / are still Phase 0 placeholder stubs.
 const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <RegisterPage /> },
