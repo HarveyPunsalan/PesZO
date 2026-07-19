@@ -197,6 +197,30 @@ NEVER use fetch directly.
 NEVER import axios and create a new instance.
 ONE axios instance for the entire app.
 
+### Component Primitives — Base UI
+
+shadcn v4 (July 2026) defaults to Base UI as its headless
+component primitive library, replacing Radix. This project
+was initialized with shadcn v4's default (style: "base-nova"),
+so Base UI is the active primitive.
+
+Practical implication: every `shadcn add <component>` will
+pull in `@base-ui/react/*` imports, not `@radix-ui/react-*`.
+
+This was a tool default at init time, not a deliberate
+project choice, but has been accepted going forward.
+Base UI is stable (1.6.0+), actively maintained by the
+same team that built Radix, and is now the recommended
+default in shadcn's own docs.
+
+If a future component needs Radix instead (e.g., a Radix-only
+component not yet ported to Base UI), that requires either
+reinitializing with `shadcn init -b radix` or manually
+rewiring the component's imports. Flag this as a known
+tradeoff, not a blocker. Both libraries coexist in
+production — the only cost is two headless dependencies
+for that one component.
+
 ### Advance Month
 
 When player advances a month — invalidate ALL

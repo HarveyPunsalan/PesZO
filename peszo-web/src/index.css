@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 uses a single @import instead of the v3 three-line @tailwind directives.
+   The @config directive is required because v4 ignores tailwind.config.ts by default —
+   without it, none of our color tokens or font families are recognized at build time. */
+@import "tailwindcss";
+@config "../tailwind.config.ts";
