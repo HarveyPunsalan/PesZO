@@ -5,3 +5,16 @@
    without it, none of our color tokens or font families are recognized at build time. */
 @import "tailwindcss";
 @config "../tailwind.config.ts";
+
+/* DESIGN.md specifies dark-mode-only with no light mode variant.
+   Without a global default, any page that omits an explicit background class
+   silently falls back to browser white, which also makes text-textPrimary
+   (warm white) nearly invisible against it — this happened on the Login
+   screen and should not be possible to repeat. */
+@layer base {
+  html,
+  body,
+  #root {
+    @apply bg-base text-textPrimary;
+  }
+}
