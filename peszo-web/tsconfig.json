@@ -14,7 +14,15 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    // baseUrl is deprecated in TS 7 but still required for the "@/*" path alias
+    // the app depends on. This silences the warning until a baseUrl-free migration
+    // (moving to package.json#imports or a future TS version that supports paths alone).
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
