@@ -27,16 +27,16 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
     defaultValues: { email: "", password: "" },
   });
 
-  // This split layout is exclusive to Login/Register — the only two screens
+  // This split layout is exclusive to Login/Register - the only two screens
   // outside the main app shell. Designed live without a Stitch mockup.
   // The left panel intentionally uses a light background as a scoped exception
-  // to DESIGN.md's dark-only rule — specifically for the Login/Register hero
+  // to DESIGN.md's dark-only rule - specifically for the Login/Register hero
   // panel, to create contrast with the mascot and match the split-screen
   // reference. This is not a project-wide change to dark mode; bg-base,
   // bg-surface1, and all other tokens remain untouched.
   return (
     <div className="flex h-screen overflow-hidden bg-base">
-      {/* Left panel — brand story + mascot. Hidden on mobile; mobile users
+      {/* Left panel - brand story + mascot. Hidden on mobile; mobile users
           get the centered card layout via the right panel only. */}
       <div className="hidden min-h-0 w-[50%] flex-col bg-authPanelLight p-8 md:flex">
         <div className="min-h-0">
@@ -65,10 +65,10 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
         </div>
       </div>
 
-      {/* Right panel — form card. 100% width on mobile, 50% on desktop. */}
+      {/* Right panel - form card. 100% width on mobile, 50% on desktop. */}
       <div className="flex w-full items-center justify-center p-4 md:w-[50%]">
         <div className="w-full max-w-[420px]">
-          {/* Wordmark — mobile only; desktop gets it from the left panel */}
+          {/* Wordmark - mobile only; desktop gets it from the left panel */}
           <h1 className="mb-1 text-center font-heading text-3xl font-bold text-textPrimary md:hidden">
             Pes<span className="text-gold">Z</span>O
           </h1>

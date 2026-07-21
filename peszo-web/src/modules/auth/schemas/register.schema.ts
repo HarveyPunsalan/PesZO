@@ -13,6 +13,6 @@ export const registerSchema = z
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 
-// min(8) matches peszo-api/src/modules/auth/auth.schema.ts exactly —
+// min(8) matches peszo-api/src/modules/auth/auth.schema.ts exactly -
 // verified against the backend, not guessed. Confirm this stays in sync
 // if the backend schema ever changes.
