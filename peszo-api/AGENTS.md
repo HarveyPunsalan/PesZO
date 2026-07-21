@@ -199,7 +199,7 @@ ONE axios instance for the entire app.
 
 ### Advance Month
 
-When player advances a month — invalidate ALL
+When player advances a month - invalidate ALL
 TanStack Query caches immediately.
 This is handled in src/hooks/useAdvanceMonth.ts.
 NEVER manually refetch individual queries after

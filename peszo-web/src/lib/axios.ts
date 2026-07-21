@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 // Attaches the access token to every outgoing request if present.
-// Reads synchronously from Zustand — the store is the source of truth
+// Reads synchronously from Zustand - the store is the source of truth
 // for session state, not TanStack Query's cache.
 api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;

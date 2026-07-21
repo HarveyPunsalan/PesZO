@@ -234,6 +234,16 @@ Title: font-body text-base text-primary font-semibold
 Description: font-body text-sm text-secondary
 Hover: border-gold + box-shadow: 0 0 16px #C9A84C18
 
+### Dashboard-Specific Component Treatments
+
+These treatments apply only to the Dashboard screen. They are different from the real Quest screen's treatments.
+
+Quest widget (Dashboard preview, NOT the real Quest screen): active quest gets border-t-2 border-gold plus a small gold dot + "ACTIVE QUEST" uppercase label above the title. This is DIFFERENT from the Quest Choice Card's hover-glow treatment (which is reserved for the actual Quest screen's choice cards). The Dashboard version is a static preview/link, not an interactive choice card.
+
+Health Score: rendered as a circular SVG progress ring (ProgressRing component in src/design-system/components/ProgressRing.tsx), not plain text and not a pie chart. A single-value gauge is a different pattern from the pie-chart ban already in Forbidden Patterns.
+
+Metric card trend indicators: positive/negative comparison text below the value, using existing success/danger tokens. For expense-type metrics specifically, the color logic is INVERTED - an increase in expenses shows as danger/red, a decrease shows as success/green. The opposite of income-type metrics. This must be implemented via an invertTrend flag, not a naive "positive number = green" rule.
+
 ---
 
 ## Layout
@@ -267,6 +277,16 @@ Border top: border-t border-borderSubtle
 Advance Month button: mx-4 bg-gold text-base font-bold uppercase h-11 rounded-sm font-body text-sm
 Player info row: flex justify-between px-4 py-2 font-body text-xs text-secondary
 
+### Login/Register Exception - Split Hero Layout
+
+Login and Register (and ONLY these two screens - no other screen in the app) use a two-panel layout instead of the standard app-shell pattern. This is a deliberate, scoped exception.
+
+Left panel: 50% width, intentionally uses a LIGHT background (authPanelLight token, #FFFFFF) - a scoped, deliberate exception to the "dark mode only, no light mode" rule. This token is not to be reused anywhere else. Contains: PesZO wordmark, tagline "Stop pestering zero." with supporting subcopy, and the piggy mascot image, bottom-anchored.
+Right panel: 50% width, bg-base, contains the actual login/register form (standard Card/Input/Button treatment).
+On mobile (below md breakpoint), the left panel is hidden entirely - mobile users see only the standard centered card layout.
+
+This exception exists because Login/Register are the only two screens outside the main app shell, designed live without a Stitch mockup, and treated as a deliberate one-time hero moment rather than part of the ongoing dark app experience.
+
 ---
 
 ## Interaction
@@ -279,6 +299,8 @@ Quest card hover: border-gold + gold glow — the one exception where glow is al
 Advance Month button: the primary action of the entire app, only element with full gold background
 
 Keep motion minimal. No decorative animations. No page entrance animations. No hover transforms except quest choice cards.
+
+ProgressRing fill animation is a deliberate, narrow exception to "no page entrance animations" - justified as feedback tied to a real state change (the score itself), not decoration. It respects prefers-reduced-motion per the accessibility rule below. This is the ONLY animated element in the app besides the existing quest-card hover glow exception.
 
 ---
 

@@ -7,7 +7,7 @@ export const loginSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
-// Password is intentionally NOT validated for strength here — this is a
+// Password is intentionally NOT validated for strength here - this is a
 // login, not account creation. The backend is the only source of truth
 // for whether a password is correct; client-side validation should only
 // catch an empty field, never re-derive password policy.

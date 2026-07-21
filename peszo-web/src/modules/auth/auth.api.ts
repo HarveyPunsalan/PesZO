@@ -1,4 +1,5 @@
 import api from "@/lib/axios";
+import type { ApiResponse } from "@/lib/types";
 import type { LoginFormValues } from "./schemas/login.schema";
 import type { RegisterFormValues } from "./schemas/register.schema";
 
@@ -12,13 +13,7 @@ export interface AuthResponse {
   accessToken: string;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  timestamp: string;
-}
-
-/** POST /auth/login — returns { user, accessToken } on success */
+/** POST /auth/login - returns { user, accessToken } on success */
 export const loginRequest = async (
   data: LoginFormValues
 ): Promise<AuthResponse> => {
@@ -27,9 +22,9 @@ export const loginRequest = async (
 };
 
 /**
- * POST /auth/register — returns { user, accessToken } on success.
+ * POST /auth/register - returns { user, accessToken } on success.
  * confirmPassword is stripped before sending; the backend has no
- * concept of it — it exists purely for client-side form validation.
+ * concept of it - it exists purely for client-side form validation.
  * Only { email, password } goes in the actual request body.
  */
 export const registerRequest = async (

@@ -229,6 +229,84 @@ This is handled in src/hooks/useAdvanceMonth.ts.
 NEVER manually refetch individual queries after
 advancing a month.
 
+### Reusable Layout Components
+
+AppLayout (src/layouts/AppLayout.tsx): the shell
+every authenticated screen renders inside (sidebar
++ nav + Outlet). Login/Register do NOT use this -
+they are standalone.
+
+PageHeader (src/layouts/PageHeader.tsx): reusable
+top-bar component (title + optional rightSlot) so
+this pattern exists in exactly one place instead of
+being rebuilt per screen. PageHeader never fetches
+or computes data itself - the calling page is always
+responsible for passing real content via rightSlot.
+
+### Query Hook Pattern
+
+Every backend module has a matching frontend .api.ts
+(plain functions, no hooks) AND a matching
+use[Module].ts hook (thin TanStack Query wrapper).
+Hooks are colocated in the same folder as their
+.api.ts file.
+
+Query keys must be used CONSISTENTLY everywhere a
+hook is called - every component calling the same
+hook shares one cache entry, which is required for
+useAdvanceMonth's unfiltered invalidateQueries() to
+actually work across the whole app.
+
+### Cross-Module Data Composition (Frontend)
+
+When a screen needs data combined from multiple
+modules (e.g. Dashboard's Net Worth = Portfolio +
+Liabilities), that composition happens in the PAGE
+component itself, via useMemo - never inside any
+single module's hook. This mirrors the backend's
+modular monolith rule: modules never combine each
+other's data internally.
+
+### Route Protection
+
+ProtectedRoute (src/routes/ProtectedRoute.tsx)
+wraps all authenticated routes, checking
+isAuthenticated from the Zustand auth store and
+redirecting to /login if false.
+
+This is a UX convenience only, NOT a security
+boundary - the real security boundary is the
+backend's auth middleware. A determined user could
+manipulate client-side state; this guard only
+prevents an honest, logged-out user from seeing a
+broken dashboard full of failed API calls.
+
+### Simulation Calendar - Not Real Time
+
+Any month/year badge shown anywhere in the app
+(e.g. Dashboard's month badge) MUST come from
+Player.simulation_month / simulation_year, and must
+NEVER be wired to the real-world system date
+(new Date()). The simulation calendar advances only
+when the player clicks Advance Month.
+
+Automatic real-time advancement was explicitly
+considered and deferred - it would require new
+backend infrastructure (a scheduled job via BullMQ,
+which exists as a dependency but has no configured
+worker yet) plus a real product decision about
+catch-up behavior for inactive players. This is a
+deliberate v2 scope item, not an oversight.
+
+### Environment Variable Note
+
+VITE_API_URL must include the /api/v1 prefix
+(e.g. http://localhost:3000/api/v1) - all backend
+routes are documented and registered under this
+prefix. A missing prefix causes silent 404s on
+every request that are easy to misdiagnose as an
+auth or CORS problem.
+
 ## Naming Conventions
 
 ### Backend
@@ -323,6 +401,10 @@ Rules:
   explaining what it does and its parameters
 - One blank line before a comment block
 - Never end a comment with an exclamation mark
+- Use a plain hyphen with spaces ( - ), never an
+  em-dash (—), in any comment. Em-dashes are
+  difficult to search/replace in bulk across a
+  codebase.
 
 ## Git Rules
 
